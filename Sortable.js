@@ -144,7 +144,7 @@
 					if (el) {
 						autoScroll.pid = setInterval(function () {
 							if (el === win) {
-								win.scrollTo(win.scrollX + vx * speed, win.scrollY + vy * speed);
+								win.scrollTo(win.pageXOffset + vx * speed, win.pageYOffset + vy * speed);
 							} else {
 								vy && (el.scrollTop += vy * speed);
 								vx && (el.scrollLeft += vx * speed);
@@ -187,7 +187,8 @@
 				dataTransfer.setData('Text', dragEl.textContent);
 			},
 			dropBubble: false,
-			dragoverBubble: false
+			dragoverBubble: false,
+			dataIdAttr: 'data-id'
 		};
 
 
@@ -726,12 +727,13 @@
 				el,
 				children = this.el.children,
 				i = 0,
-				n = children.length;
+				n = children.length,
+				options = this.options;
 
 			for (; i < n; i++) {
 				el = children[i];
-				if (_closest(el, this.options.draggable, this.el)) {
-					order.push(el.getAttribute('data-id') || _generateId(el));
+				if (_closest(el, options.draggable, this.el)) {
+					order.push(el.getAttribute(options.dataIdAttr) || _generateId(el));
 				}
 			}
 
